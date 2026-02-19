@@ -14,9 +14,14 @@ from litestar.exceptions import HTTPException
 from litestar.response import Response
 from litestar.static_files import create_static_files_router
 
-# Rutas relativas al directorio backend/
-DB_PATH = Path("../prueba.db")
-DATA_PATH = Path("../data/usuarios.json")
+
+# Paths robustos (no dependen del working directory)
+BASE_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = BASE_DIR.parent
+
+DB_PATH = PROJECT_DIR / "prueba.db"
+DATA_PATH = PROJECT_DIR / "data" / "usuarios.json"
+FRONTEND_DIR = PROJECT_DIR / "frontend"
 
 
 def _slugify(text: str) -> str:
@@ -49,7 +54,7 @@ def init_db() -> None:
     """
     reset_db = os.getenv("RESET_DB") == "1"
 
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(DB_PATH))
     cursor = conn.cursor()
 
     cursor.execute(
@@ -113,7 +118,7 @@ def _get_user_by_username(username: str) -> dict[str, Any] | None:
     - Esta funcion es interna al backend.
     - Nunca se debe retornar password_hash al frontend.
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(DB_PATH))
     cursor = conn.cursor()
     cursor.execute(
         "SELECT id, nombre, rol, renta_mensual, username, password_hash FROM usuarios WHERE username = ?",
@@ -157,7 +162,7 @@ def _get_users_for_role(current_user_id: int, current_role: str) -> list[dict[st
     - supervisor: ve supervisor y usuario (no admin)
     - usuario: solo se ve a si mismo
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(DB_PATH))
     cursor = conn.cursor()
 
     if current_role == "admin":
@@ -236,7 +241,7 @@ async def usuarios(request: Request) -> list[dict[str, Any]]:
 # Router para servir el frontend (HTML/CSS/JS)
 static_router = create_static_files_router(
     path="/",
-    directories=["../frontend"],
+    directories=[str(FRONTEND_DIR)],
     html_mode=True,
 )
 

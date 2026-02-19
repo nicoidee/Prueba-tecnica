@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "nombre": "Jhon Doe",
+    "rol": "admin",
+    "renta_mensual": 2523.06
+  },
+  {
+    "id": 2,
+    "nombre": "Juan Pérez",
+    "rol": "admin",
+    "renta_mensual": 1515.57
+  },
+  {
+    "id": 3,
+    "nombre": "Ana Torres",
+    "rol": "supervisor",
+    "renta_mensual": 4292.52
+  },
+  {
+    "id": 4,
+    "nombre": "Luis Gómez",
+    "rol": "supervisor",
+    "renta_mensual": 4710.2
+  },
+  {
+    "id": 5,
+    "nombre": "María López",
+    "rol": "supervisor",
+    "renta_mensual": 4831.71
+  },
+  {
+    "id": 6,
+    "nombre": "Carlos Sánchez",
+    "rol": "admin",
+    "renta_mensual": 2059.9
+  },
+  {
+    "id": 7,
+    "nombre": "Lucía Fernández",
+    "rol": "admin",
+    "renta_mensual": 3155.8
+  },
+  {
+    "id": 8,
+    "nombre": "Pedro Ramírez",
+    "rol": "supervisor",
+    "renta_mensual": 2732.34
+  },
+  {
+    "id": 9,
+    "nombre": "Sofía Herrera",
+    "rol": "supervisor",
+    "renta_mensual": 1735.99
+  },
+  {
+    "id": 10,
+    "nombre": "Diego Castro",
+    "rol": "admin",
+    "renta_mensual": 3658.47
+  },
+  {
+    "id": 11,
+    "nombre": "Valentina Ríos",
+    "rol": "usuario",
+    "renta_mensual": 1585.69
+  },
+  {
+    "id": 12,
+    "nombre": "Mateo Vargas",
+    "rol": "usuario",
+    "renta_mensual": 1980.94
+  },
+  {
+    "id": 13,
+    "nombre": "Camila Navarro",
+    "rol": "usuario",
+    "renta_mensual": 3264.64
+  },
+  {
+    "id": 14,
+    "nombre": "Emilio Ortega",
+    "rol": "usuario",
+    "renta_mensual": 1307.84
+  },
+  {
+    "id": 15,
+    "nombre": "Isabella Fuentes",
+    "rol": "usuario",
+    "renta_mensual": 2889.94
+  },
+  {
+    "id": 16,
+    "nombre": "Tomás Morales",
+    "rol": "usuario",
+    "renta_mensual": 2594.33
+  },
+  {
+    "id": 17,
+    "nombre": "Renata Salazar",
+    "rol": "usuario",
+    "renta_mensual": 3750.33
+  },
+  {
+    "id": 18,
+    "nombre": "Gabriel Paredes",
+    "rol": "usuario",
+    "renta_mensual": 1315.01
+  },
+  {
+    "id": 19,
+    "nombre": "Florencia León",
+    "rol": "usuario",
+    "renta_mensual": 1428.84
+  },
+  {
+    "id": 20,
+    "nombre": "Sebastián Riquelme",
+    "rol": "usuario",
+    "renta_mensual": 3359.13
+  }
+]

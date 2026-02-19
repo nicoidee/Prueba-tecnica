@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+
+# Env / secrets
+.env
+
+# DB (recomendado no subirla; se genera con init_db)
+prueba.db
+*.db

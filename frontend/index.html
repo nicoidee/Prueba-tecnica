@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Prueba Tecnica</title>
+    <style>
+        body { font-family: Arial; max-width: 400px; margin: 100px auto; padding: 20px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .error { color: red; background: #ffe6e6; padding: 10px; border-radius: 4px; margin-top: 10px; }
+        .success { color: green; background: #e6ffe6; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h2>🔐 Login Prueba Tecnica</h2>
+
+    <!-- Formulario simple: username + password -->
+    <input id="username" placeholder="Usuario ej: jhon_doe_1" />
+    <input id="password" type="password" placeholder="password" />
+    <button onclick="login()">🚀 Iniciar Sesion</button>
+
+    <!-- Contenedor para mensajes de validacion/login -->
+    <div id="message"></div>
+
+    <script>
+        async function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+
+            // Validacion minima en frontend (el backend igual valida credenciales)
+            if (!username || !password) {
+                message.innerHTML = '<div class="error">Completa todos los campos</div>';
+                return;
+            }
+
+            message.innerHTML = '⏳ Iniciando sesion...';
+
+            try {
+                // Login via backend: /auth/login
+                // credentials: 'include' permite recibir/enviar cookies HTTPOnly de sesion
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // El backend retorna user sin exponer password_hash
+                    message.innerHTML = `<div class="success">${data.message} - Rol: ${data.user.rol}</div>`;
+
+                    // Redirect al dashboard (donde se consulta /usuarios con cookies)
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1500);
+                } else {
+                    // Ej: 401 Credenciales invalidas
+                    message.innerHTML = `<div class="error">❌ ${data.detail}</div>`;
+                }
+            } catch (error) {
+                message.innerHTML = `<div class="error">Error de conexion: ${error.message}</div>`;
+            }
+        }
+
+        // Permite login presionando Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+    </script>
+</body>
+</html>

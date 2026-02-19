@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Usuarios</title>
+
+    <!-- DataTables + jQuery para tabla con paginacion, busqueda y ordenamiento -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f8f9fa;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #007bff;
+            margin: 0 0 10px 0;
+        }
+        button {
+            padding: 12px 24px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #c82333; }
+        table.dataTable {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #usersTable_wrapper { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>📊 Usuarios segun tu rol</h2>
+        <button onclick="logout()">🚪 Cerrar Sesion</button>
+    </div>
+
+    <!-- Tabla: DataTables la llena dinamicamente con el JSON retornado por /usuarios -->
+    <table id="usersTable" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre Completo</th>
+                <th>Rol</th>
+                <th>Renta Mensual</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+        // Al cargar la pagina, se consulta el backend y se inicializa la tabla
+        $(document).ready(function () {
+            loadUsers();
+        });
+
+        async function loadUsers() {
+            try {
+                // Endpoint protegido: requiere cookies de sesion.
+                // credentials: 'include' asegura que el navegador envie cookies HTTPOnly.
+                const response = await fetch('/usuarios', {
+                    credentials: 'include'
+                });
+
+                // Si la sesion no existe o expiro, el backend responde 401
+                if (!response.ok) {
+                    throw new Error('No autenticado');
+                }
+
+                // El backend ya aplica visibilidad segun rol (admin/supervisor/usuario)
+                const users = await response.json();
+
+                // DataTables: renderiza la lista de usuarios en la tabla
+                $('#usersTable').DataTable({
+                    data: users,
+                    columns: [
+                        { data: 'id', width: "10%" },
+                        { data: 'nombre', width: "40%" },
+                        { data: 'rol', width: "20%" },
+                        {
+                            data: 'renta_mensual',
+                            width: "30%",
+                            render: function (data) {
+                                // Formato local para CL (solo presentacion)
+                                return '$ ' + parseFloat(data).toLocaleString('es-CL');
+                            }
+                        }
+                    ],
+                    pageLength: 25,
+                    responsive: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                    }
+                });
+
+            } catch (error) {
+                // Si falla, se asume sesion expirada o problema de red y se vuelve al login
+                alert('❌ Sesion expirada o error de conexion');
+                window.location.href = '/index.html';
+            }
+        }
+
+        async function logout() {
+            try {
+                // Invalida la sesion borrando cookies en el backend
+                await fetch('/auth/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch (e) {
+                // Si falla, igual redirigimos al login (logout best-effort)
+                console.log('Logout error:', e);
+            }
+
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

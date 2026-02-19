@@ -3,11 +3,15 @@ import sqlite3
 from pathlib import Path
 
 
+# Base del archivo actual (backend/db.py) y raiz del repo
+BASE_DIR = Path(__file__).resolve().parent
+PROJECT_DIR = BASE_DIR.parent
+
 # Rutas del proyecto:
-# - DB_PATH: base de datos SQLite ubicada un nivel arriba (desde backend/)
+# - DB_PATH: base de datos SQLite en la raiz del repo
 # - DATA_PATH: archivo JSON con los usuarios de prueba
-DB_PATH = Path("..\\prueba.db")
-DATA_PATH = Path("..\\data\\usuarios.json")
+DB_PATH = PROJECT_DIR / "prueba.db"
+DATA_PATH = PROJECT_DIR / "data" / "usuarios.json"
 
 # Hash bcrypt fijo para entorno de prueba: corresponde a la clave "password"
 # Nota: en produccion, cada usuario deberia tener su propio hash generado al registrar.
@@ -20,7 +24,7 @@ def create_connection() -> sqlite3.Connection:
     Returns:
         sqlite3.Connection: Conexion activa hacia la base de datos.
     """
-    return sqlite3.connect(DB_PATH)
+    return sqlite3.connect(str(DB_PATH))
 
 
 def create_table(conn: sqlite3.Connection) -> None:

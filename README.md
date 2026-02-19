@@ -103,3 +103,21 @@ RESET_DB=1 python app.py
 ## Notas
 - No se utilizan frameworks externos de autenticacion (ej: Firebase Auth, Auth0). 
 - La tabla del dashboard usa DataTables para busqueda, paginacion y ordenamiento. 
+
+
+## Pruebas (pytest)
+Desde la raiz del proyecto:
+
+```bash
+python -m pytest -q
+```
+```Si quieres ver el nombre de cada test:
+python -m pytest -v
+```
+# Deploy en Render (extra)
+```Si lo despliegas en Render como Web Service, el Start Command recomendado es:
+uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+```
+URL del deploy:
+
+https://prueba-tecnica-zqjl.onrender.com/index.html

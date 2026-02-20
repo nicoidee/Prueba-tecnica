@@ -24,16 +24,18 @@ Aplicacion web con login, manejo de sesion por cookies (HTTPOnly) y visualizacio
 - requirements.txt
 
 ## Instalacion (local)
-1) Clonar y entrar al proyecto:
-```bash
-git clone <TU_URL>
-cd <TU_REPO>
+1) Descargar el proyecto como zip:
+```Procurar que el directorio de la carpeta quede por ejemplo asi:
+C:\Users\Downloads\Prueba-tecnica-main
+```
+```Y no asi:
+C:\Users\Downloads\Prueba-tecnica-main\Prueba-tecnica-main
 ```
 
 2) Crear y activar entorno virtual:
 
-Windows (PowerShell):
-```powershell
+Terminal (PowerShell o Visual Studio Code):
+```powershell o terminal de VSC
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
